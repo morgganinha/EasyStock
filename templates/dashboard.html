@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - EasyStock</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+        }
+
+        .cards {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 220px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .card p {
+            color: #666;
+        }
+
+        .estoque-baixo {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #eee;
+        }
+
+        .alerta {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📊 Dashboard EasyStock</h1>
+
+    <div class="cards">
+
+        <div class="card">
+            <h2>{{ total_produtos }}</h2>
+            <p>Produtos cadastrados</p>
+        </div>
+
+        <div class="card">
+            <h2>{{ quantidade_total }}</h2>
+            <p>Itens em estoque</p>
+        </div>
+
+        <div class="card">
+            <h2>R$ {{ "%.2f"|format(valor_total) }}</h2>
+            <p>Valor do estoque</p>
+        </div>
+
+    </div>
+
+    <div class="estoque-baixo">
+
+        <h2>⚠️ Estoque baixo</h2>
+
+        {% if estoque_baixo %}
+
+        <table>
+
+            <tr>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+            </tr>
+
+            {% for produto in estoque_baixo %}
+
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>R$ {{ "%.2f"|format(produto.preco) }}</td>
+                <td class="alerta">
+                    {{ produto.quantidade }}
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        {% else %}
+
+        <p>✅ Nenhum produto com estoque baixo.</p>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
